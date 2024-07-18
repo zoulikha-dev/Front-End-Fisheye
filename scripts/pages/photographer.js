@@ -57,27 +57,40 @@ function photographerDetails(photographer) {
 }
 
 // Fonction pour afficher les medias du photographe
-function photographerMediaDetails(photographerMedia, photographer) {
-  // Convertir le nom du photographe en un format utilisable pour le dossier
-  const photographerFolder = photographer.name.replace("_", " ");
+function photographerMediaDetails(mediaArray, photographer) {
+  const mediaContainer = document.getElementById("photographer-media");
+  mediaContainer.innerHTML = "";
 
-  const photographerDetailsMediaDiv = document.createElement("div");
-  photographerDetailsMediaDiv.classList.add("pictures");
+  const mediaPaths = mediaArray.map((media) => {
+    const mediaPath = media.image
+      ? `assets/images/${photographer.name.replace("_", " ")}/${media.image}`
+      : `assets/images/${photographer.name.replace("_", " ")}/${media.video}`;
+    return mediaPath;
+  });
 
-  photographerMedia.forEach((media) => {
-    const mediaContainer = document.createElement("div");
-    mediaContainer.classList.add("media-container");
+  //  initLightbox(photographerMedia);
+  mediaArray.forEach((media, index) => {
+    const mediaContainerDiv = document.createElement("div");
+    mediaContainerDiv.classList.add("media-container");
 
     const mediaElement = document.createElement(media.image ? "img" : "video");
+    const mediaPath = media.image
+      ? `assets/images/${photographer.name.replace("_", " ")}/${media.image}`
+      : `assets/images/${photographer.name.replace("_", " ")}/${media.video}`;
+
     if (media.image) {
-      mediaElement.src = `assets/images/${photographerFolder}/${media.image}`;
+      mediaElement.src = mediaPath;
       mediaElement.alt = media.title;
     } else {
-      mediaElement.src = `assets/images/${photographerFolder}/${media.video}`;
+      mediaElement.src = mediaPath;
       mediaElement.type = "video/mp4";
-      mediaElement.controls = true; // ajout des contrôles de lecture pour les vidéos
+      mediaElement.controls = true;
     }
-    mediaContainer.appendChild(mediaElement);
+    mediaElement.classList.add("media-item");
+    mediaElement.addEventListener("click", () =>
+      openLightbox(mediaElement.src, index)
+    );
+    mediaContainerDiv.appendChild(mediaElement);
 
     // Créer un élément pour afficher le bloc de titre, icône de cœur et nombre de likes
     const mediaInfoDiv = document.createElement("div");
@@ -97,30 +110,22 @@ function photographerMediaDetails(photographerMedia, photographer) {
     const mediaLikes = document.createElement("p");
     mediaLikes.textContent = media.likes + " ";
     mediaLikes.classList.add("mediaLikes");
-
-    // Ajouter le nombre de likes à likesContainer
     likesContainer.appendChild(mediaLikes);
 
     // Créer un élément pour afficher l'icône de cœur
     const heartIcon = document.createElement("span");
     heartIcon.classList.add("heart-icon");
     heartIcon.textContent = "❤️"; // Utilisation de l'icône de cœur Unicode
-    // heartIcon.style.color = "#901C1C";
-
-    // Ajouter mediaTitle à mediaInfoDiv
-    mediaInfoDiv.appendChild(mediaTitle);
-    // Ajouter likesContainer à mediaInfoDiv
-    mediaInfoDiv.appendChild(likesContainer);
-    likesContainer.appendChild(mediaLikes);
-    // Ajouter le cœur à likesContainer
     likesContainer.appendChild(heartIcon);
-    // Ajout mediaInfoDiv à mediaContainer
-    mediaContainer.appendChild(mediaInfoDiv);
 
-    // Ajout mediaContainer à photographerDetailsMediaDiv
-    photographerDetailsMediaDiv.appendChild(mediaContainer);
+    // Ajouter les éléments à mediaInfoDiv
+    mediaInfoDiv.appendChild(likesContainer);
+    mediaContainerDiv.appendChild(mediaInfoDiv);
+
+    // Ajouter le mediaContainerDiv à mediaContainer
+    mediaContainer.appendChild(mediaContainerDiv);
   });
 
-  const mainElement = document.getElementById("main");
-  mainElement.appendChild(photographerDetailsMediaDiv);
+  // Initialiser la lightbox après avoir ajouté les médias
+  initLightbox(mediaPaths);
 }

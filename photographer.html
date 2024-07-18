@@ -2,6 +2,7 @@
 <html>
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/photographer.css" />
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link
@@ -20,6 +21,7 @@
           Contactez-moi
         </button>
       </div>
+      <div id="photographer-media"></div>
     </main>
     <!-- MODAL -->
     <div id="contact_modal">
@@ -57,11 +59,16 @@
           class="btn_close"
           aria-label="Close dialog"
           onclick="closeLightbox()"
-        ></button>
-        <button class="btn_next" aria-label="Next media"></button>
-        <button class="btn_previous" aria-label="Previous media"></button>
+        >
+          fermer
+        </button>
+        <button class="btn_next" aria-label="Next media">Suivant</button>
+        <button class="btn_previous" aria-label="Previous media">
+          Précedent
+        </button>
         <div class="lightbox_media" role="media" aria-label="Current Media">
-          <img src="" alt="" onclick="openLightbox()" />
+          <img src="" alt="" onclick="openLightbox()" class="lightbox_img" />
+          <video controls class="lightbox_video" style="display: none"></video>
         </div>
       </div>
     </div>
