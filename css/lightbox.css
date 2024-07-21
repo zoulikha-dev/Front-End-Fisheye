@@ -1,0 +1,87 @@
+/* Conteneur de la lightbox */
+.lightbox_container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 90%;
+  height: 80%;
+  background: white;
+  border: 2px solid #95fff9;
+  transform: translate(-50%, -50%);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  display: none;
+}
+
+/* Afficher la lightbox */
+.lightbox_container.open {
+  display: flex;
+}
+
+/* Rectangle de la lightbox */
+.lightbox {
+  width: 90%;
+  height: 88%;
+  background: #c4c4c4;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 1;
+  margin-top: -3%;
+  border-right: 3px solid #c4c4c4;
+}
+
+/* Titre en bas à gauche */
+.lightbox_title {
+  position: absolute;
+  top: 91%;
+  left: 4.5%;
+  font-size: 24px;
+  color: #901c1c;
+  text-align: left;
+  padding: 5px; /* Ajusté pour mieux s'adapter au style */
+  z-index: 3; /* Assure que le titre est au-dessus du rectangle blanc */
+}
+
+/* Boutons de navigation */
+.btn_close {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  background: none;
+  border: none;
+  color: #901c1c;
+  font-size: 2em;
+  cursor: pointer;
+  z-index: 4; /* Assure que le bouton de fermeture est au-dessus des autres éléments */
+}
+
+.btn_previous,
+.btn_next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 2em;
+  color: #901c1c;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 4; /* Assure que les boutons de navigation sont au-dessus des autres éléments */
+}
+
+.btn_previous {
+  left: 20px;
+}
+
+.btn_next {
+  right: 20px;
+}
+
+/* Image et vidéo dans la lightbox */
+.lightbox_img,
+.lightbox_video {
+  width: 100%;
+  height: auto; /* Ajuste la hauteur automatiquement */
+  object-fit: cover;
+  display: block;
+}

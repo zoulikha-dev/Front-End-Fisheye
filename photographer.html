@@ -3,12 +3,17 @@
   <head>
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="css/photographer.css" />
+    <link rel="stylesheet" href="css/lightbox.css" />
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link
       href="https://fonts.googleapis.com/css?family=DM+Sans&display=swap"
       rel="stylesheet"
     />
+    <script
+      src="https://kit.fontawesome.com/75ad6ddfbf.js"
+      crossorigin="anonymous"
+    ></script>
     <title>Fisheye - photographe</title>
   </head>
   <body>
@@ -60,16 +65,19 @@
           aria-label="Close dialog"
           onclick="closeLightbox()"
         >
-          fermer
+          <i class="fas fa-times"></i>
         </button>
-        <button class="btn_next" aria-label="Next media">Suivant</button>
+        <button class="btn_next" aria-label="Next media">
+          <i class="fas fa-chevron-right"></i>
+        </button>
         <button class="btn_previous" aria-label="Previous media">
-          Précedent
+          <i class="fas fa-chevron-left"></i>
         </button>
         <div class="lightbox_media" role="media" aria-label="Current Media">
           <img src="" alt="" onclick="openLightbox()" class="lightbox_img" />
           <video controls class="lightbox_video" style="display: none"></video>
         </div>
+        <div class="lightbox_title"></div>
       </div>
     </div>
     <script src="/scripts/pages/photographer.js"></script>
