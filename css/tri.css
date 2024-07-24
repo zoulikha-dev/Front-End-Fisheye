@@ -1,0 +1,39 @@
+/* Style général pour le conteneur de tri */
+#sort-container {
+  width: 245px;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 20px 100px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Style du sélecteur */
+#sort-select {
+  width: 170px;
+  height: 69px;
+  gap: 0px;
+  border-radius: 5px;
+  font-family: DM Sans;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 23.44px;
+  background: #901c1c;
+  color: white;
+}
+
+/* Style au survol du sélecteur */
+#sort-select:hover {
+  border-color: #888;
+}
+
+/* Style du focus pour le sélecteur */
+#sort-select:focus {
+  border-color: #007bff; /* Couleur du focus */
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25); /* Ombre de focus */
+}
+
+/* Option du sélecteur */
+#sort-select option {
+  padding: 8px;
+}

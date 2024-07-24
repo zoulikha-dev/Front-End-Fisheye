@@ -11,18 +11,21 @@
 
 .photograph-header {
   position: relative;
-  /* display: flex; */
-  background-color: #fafafa;
-  /* height: 300px; */
-  margin: 50px 100px;
-  /* flex-direction: column-reverse; */
+  height: 300px;
+  margin: 0px 100px;
+}
+
+.contacter_btn {
+  position: absolute;
+  top: 55%;
+  transform: translateY(-50%);
+  right: 40%;
+  z-index: 2;
 }
 
 .contact_button {
   font-size: 20px;
-  font-weight: bold;
   color: white;
-  padding: 11px;
   width: 170px;
   height: 70px;
   border: none;
@@ -31,17 +34,33 @@
   cursor: pointer;
 }
 
-.contacter_btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  right: 45%;
-  z-index: 2;
-}
-
 .photographer-details {
   position: relative;
+  /* background: yellow;
+  position: relative;
   height: 313px;
+  width: 100%; */
+}
+
+.photographer-details h2 {
+  margin: 0;
+  color: #d3573c;
+  height: 83px;
+  font-size: 64px;
+  padding: 50px 0 0 40px;
+}
+
+.photographer-details h3 {
+  color: #901c1c;
+  font-size: 24px;
+  height: 31px;
+  margin: 0 0 0 43px;
+}
+
+.photographer-details p {
+  margin: 10px 0 0 43px;
+  color: #525252;
+  font-size: 18px;
 }
 
 .photographer-details img {
@@ -49,66 +68,39 @@
   width: 200px;
   border-radius: 50%;
   object-fit: cover;
-  margin-right: 40px;
+  margin-right: 0px;
   position: absolute;
-  top: 50%;
+  top: 70%;
   transform: translateY(-50%);
-  right: 0;
-}
-
-.photographer-details h2 {
-  color: #d3573c;
-  height: 83px;
-  font-weight: 400px;
-  font-size: 64px;
-  margin: 50px 0 20px 40px;
-  padding-top: 50px;
-}
-
-.photographer-details h3 {
-  color: #901c1c;
-  font-size: 24px;
-  height: 31px;
-  margin: 0 40px;
-}
-
-.photographer-details p {
-  margin: 20px 0 0 40px;
-  color: #525252;
-  font-size: 18px;
+  left: 85%;
 }
 
 #photographer-media {
-  margin: auto;
-  width: 80%;
+  margin: 0 100px;
+  width: 100%;
   display: flex;
-  justify-content: space-around;
   flex-wrap: wrap;
-  align-content: space-around;
+  gap: 100px;
 }
 #photographer-media img,
 video {
   object-fit: cover;
-  width: 80%;
-  height: 60%;
-  margin-bottom: 20px;
+  width: 350px;
+  height: 300px;
 }
 
 .media-container {
   position: relative;
   width: calc(33.33% - 20px);
   max-height: 350px;
-  max-width: 350px;
+  max-width: 351px;
 }
 
 .media-info {
   display: flex;
   justify-content: space-between;
-  position: absolute;
-  bottom: 70px;
-  left: 0;
-  width: 100%;
-  transform: translateY(100%);
+  width: 350px;
+  line-height: 31.25px;
 }
 
 .likes-container {

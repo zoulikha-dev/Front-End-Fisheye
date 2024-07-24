@@ -7,6 +7,12 @@ function createSortSelect() {
     return;
   }
 
+  // Ajouter le texte "Trier par :"
+  const sortLabel = document.createElement("label");
+  sortLabel.setAttribute("for", "sort-select");
+  sortLabel.textContent = "Trier par :";
+  sortContainer.appendChild(sortLabel);
+
   const select = document.createElement("select");
   select.setAttribute("id", "sort-select");
 
