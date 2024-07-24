@@ -2,16 +2,15 @@
 const urlParams = new URLSearchParams(window.location.search);
 const photographerId = urlParams.get("id");
 
-// Construction de l'url de l'api avec l'ID du photographe
+// Construction de l'url de l'api
 const apiUrl = `data/photographers.json`;
 
 // Récupération des données du photographe à partir de l'api
 fetch(apiUrl)
   .then((response) => {
     if (!response.ok) {
-      throw new Error("Erreur");
+      throw new Error("Erreur lors de la récupération des données.");
     }
-    // Conversion de la réponse en JSON
     return response.json();
   })
   .then((data) => {
@@ -29,14 +28,14 @@ fetch(apiUrl)
         (media) => media.photographerId === photographer.id
       );
 
+      // Afficher les détails des médias du photographe
       photographerMediaDetails(photographerMedia, photographer);
     } else {
       console.error("Photographe non trouvé");
     }
   })
   .catch((error) => {
-    // Gérer les erreurs
-    console.error("Erreur lors de la récupération des données fetch:", error);
+    console.error("Erreur lors de la récupération des données:", error);
   });
 
 // Fonction pour afficher les détails du photographe
@@ -54,6 +53,9 @@ function photographerDetails(photographer) {
   `;
 
   photographHeaderDiv.appendChild(photographerDetailsDiv);
+
+  // Mettre à jour le prix
+  updatePrice(photographer.price);
 }
 
 // Fonction pour afficher les médias du photographe
@@ -130,27 +132,46 @@ function photographerMediaDetails(mediaArray, photographer) {
 
   // Initialiser la lightbox après avoir ajouté les médias
   initLightbox(mediaPaths);
+
+  // Mettre à jour le total des likes
+  const initialTotalLikes = mediaArray.reduce(
+    (total, media) => total + media.likes,
+    0
+  );
+  totalLikes = initialTotalLikes;
+  updateTotalLikes();
+
+  // Ajouter des écouteurs d'événements pour tous les boutons de like après avoir ajouté les médias
+  document.querySelectorAll(".heart-icon").forEach((heartIcon) => {
+    heartIcon.addEventListener("click", incrementLikes);
+  });
 }
 
 // Fonction pour ouvrir la lightbox
 function openLightbox(src, index, title) {
-  const lightbox = document.getElementById("lightbox");
-  const lightboxMedia = lightbox.querySelector(".lightbox-media");
-  const lightboxTitle = lightbox.querySelector(".lightbox-title");
+  const lightbox = document.querySelector(".lightbox_container");
+  const lightboxMedia = lightbox.querySelector(".lightbox_media");
+  const lightboxTitle = lightbox.querySelector("#lightbox-title");
+  const lightboxDescription = lightbox.querySelector("#lightbox-description");
 
-  lightboxMedia.src = src;
+  const mediaElement = lightbox.querySelector(".lightbox_img");
+  mediaElement.src = src;
+  mediaElement.alt = title;
+
   lightboxTitle.textContent = title;
+  lightboxDescription.textContent =
+    "Utilisez les boutons pour naviguer entre les médias.";
   lightbox.style.display = "block";
 
   // Fermer la lightbox au clic sur le bouton de fermeture
-  const closeButton = lightbox.querySelector(".close-lightbox");
+  const closeButton = lightbox.querySelector(".btn_close");
   closeButton.addEventListener("click", () => {
     lightbox.style.display = "none";
   });
 
   // Naviguer entre les médias
-  const prevButton = lightbox.querySelector(".prev");
-  const nextButton = lightbox.querySelector(".next");
+  const prevButton = lightbox.querySelector(".btn_previous");
+  const nextButton = lightbox.querySelector(".btn_next");
 
   prevButton.addEventListener("click", () => {
     const prevIndex = (index - 1 + mediaPaths.length) % mediaPaths.length;

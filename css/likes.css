@@ -1,0 +1,39 @@
+/* Style de la section des likes */
+.like-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 376px;
+  height: 89px;
+  border-radius: 5px 5px 0px 0px;
+  background: #db8876;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
+}
+
+/* Style pour le conteneur des informations de like */
+.like-info {
+  display: flex;
+  align-items: center;
+  line-height: 31.25px;
+}
+
+/* Style du nombre total de likes */
+.like-number {
+  font-size: 24px;
+  margin: 0;
+}
+
+/* Style de l'icône de cœur */
+.heart-icon-black {
+  margin-left: 10px;
+  color: #000;
+  font-size: 23px;
+}
+
+/* Style du tarif */
+.price-tag {
+  font-size: 24px;
+}

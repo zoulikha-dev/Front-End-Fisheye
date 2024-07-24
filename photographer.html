@@ -4,6 +4,7 @@
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="css/photographer.css" />
     <link rel="stylesheet" href="css/lightbox.css" />
+    <link rel="stylesheet" href="css/likes.css" />
     <meta charset="utf-8" />
     <link rel="icon" type="image/png" href="assets/favicon.png" />
     <link
@@ -18,24 +19,31 @@
   </head>
   <body>
     <header>
-      <img src="assets/images/logo.png" class="logo" />
+      <img src="assets/images/logo.png" class="logo" alt="logo de Fisheye" />
     </header>
-    <main id="main">
+    <main id="main" aria-hidden="false">
       <div class="photograph-header">
         <button class="contact_button contacter_btn" onclick="displayModal()">
-          Contactez-moi
+          <span aria-label="Ouvrir le formulaire de contact" role="button"
+            >Contactez-moi</span
+          >
         </button>
       </div>
-      <div id="photographer-media"></div>
+      <div id="photographer-media" aria-live="polite"></div>
     </main>
     <!-- MODAL -->
-    <div id="contact_modal">
+    <div id="contact_modal" aria-hidden="true" role="dialog">
       <div class="modal">
         <header>
-          <h2>Contactez-moi</h2>
-          <img src="assets/icons/close.svg" onclick="closeModal()" />
+          <h2 id="contact-modal-title">Contactez-moi</h2>
+          <img
+            src="assets/icons/close.svg"
+            onclick="closeModal()"
+            alt="Fermer la modale"
+            aria-label="Fermer la modale"
+          />
         </header>
-        <form>
+        <form aria-labelledby="contact-modal-title">
           <div>
             <label for="prenom">Prénom</label>
             <input type="text" id="prenom" name="prenom" required />
@@ -52,36 +60,57 @@
             <label for="message">Votre message</label>
             <textarea id="message" name="message" rows="4" required></textarea>
           </div>
-          <button class="contact_button">Envoyer</button>
+          <button class="contact_button" aria-label="Envoyer le formulaire">
+            Envoyer
+          </button>
         </form>
       </div>
     </div>
     <!-- LIGHTBOX -->
-    <div class="lightbox_container" aria-modal="true" role="dialog">
-      <div class="lightbox" aria-label="Media closeup view">
+    <div
+      class="lightbox_container"
+      aria-modal="true"
+      role="dialog"
+      aria-labelledby="lightbox-title"
+      aria-describedby="lightbox-description"
+    >
+      <div class="lightbox" aria-label="Vue rapprochée du média">
         <!-- Bouton pour fermer la lightbox -->
         <button
           class="btn_close"
-          aria-label="Close dialog"
+          aria-label="Fermer la lightbox"
           onclick="closeLightbox()"
         >
           <i class="fas fa-times"></i>
         </button>
-        <button class="btn_next" aria-label="Next media">
+        <button class="btn_next" aria-label="Media suivant">
           <i class="fas fa-chevron-right"></i>
         </button>
-        <button class="btn_previous" aria-label="Previous media">
+        <button class="btn_previous" aria-label="Media précédent">
           <i class="fas fa-chevron-left"></i>
         </button>
-        <div class="lightbox_media" role="media" aria-label="Current Media">
+        <div class="lightbox_media" role="media" aria-label="Media actuel">
           <img src="" alt="" onclick="openLightbox()" class="lightbox_img" />
           <video controls class="lightbox_video" style="display: none"></video>
         </div>
-        <div class="lightbox_title"></div>
+        <div id="lightbox-title" class="lightbox_title"></div>
+        <div id="lightbox-description" class="lightbox_description">
+          Utilisez les boutons pour naviguer entre les médias.
+        </div>
       </div>
     </div>
+    <footer>
+      <div class="like-section">
+        <div class="like-info">
+          <p class="like-number" id="total-likes">0</p>
+          <i class="fas fa-heart heart-icon-black"></i>
+        </div>
+        <div class="price-tag" id="price-tag"></div>
+      </div>
+    </footer>
     <script src="/scripts/pages/photographer.js"></script>
     <script src="/scripts/utils/contactForm.js"></script>
     <script src="/scripts/utils/lightbox.js"></script>
+    <script src="/scripts/utils/likes.js"></script>
   </body>
 </html>
