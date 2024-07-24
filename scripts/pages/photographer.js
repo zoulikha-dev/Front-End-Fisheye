@@ -5,6 +5,10 @@ const photographerId = urlParams.get("id");
 // Construction de l'url de l'api
 const apiUrl = `data/photographers.json`;
 
+// Variables pour stocker les médias associés au photographe sélectionné et les détails du photographe
+let photographerMedia = [];
+let selectedPhotographer = null;
+
 // Récupération des données du photographe à partir de l'api
 fetch(apiUrl)
   .then((response) => {
@@ -60,9 +64,12 @@ function photographerDetails(photographer) {
 
 // Fonction pour afficher les médias du photographe
 function photographerMediaDetails(mediaArray, photographer) {
+  selectedPhotographer = photographer;
+  photographerMedia = mediaArray;
   const mediaContainer = document.getElementById("photographer-media");
   mediaContainer.innerHTML = "";
 
+  // Créer un tableau avec les chemins des médias et les titres
   const mediaPaths = mediaArray.map((media) => {
     const mediaPath = media.image
       ? `assets/images/${photographer.name.replace("_", " ")}/${media.image}`
@@ -191,3 +198,47 @@ function openLightbox(src, index, title) {
     );
   });
 }
+
+// Fonction pour trier les médias selon le critère sélectionné
+function sortMedia(criteria) {
+  let sortedMedia;
+
+  switch (criteria) {
+    case "popularity":
+      sortedMedia = photographerMedia.sort((a, b) => b.likes - a.likes);
+      break;
+    case "date":
+      sortedMedia = photographerMedia.sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
+      );
+      break;
+    case "title":
+      sortedMedia = photographerMedia.sort((a, b) =>
+        a.title.localeCompare(b.title)
+      );
+      break;
+    default:
+      sortedMedia = photographerMedia;
+  }
+
+  console.log("Médias triés:", sortedMedia);
+
+  // Réafficher les médias triés
+  photographerMediaDetails(sortedMedia, selectedPhotographer);
+}
+
+// Fonction pour gérer le changement de critère de tri
+function handleSortChange(event) {
+  const selectedCriteria = event.target.value;
+  sortMedia(selectedCriteria);
+}
+
+// Ajouter l'écouteur d'événement à l'élément de tri
+document.addEventListener("DOMContentLoaded", () => {
+  const sortSelect = document.getElementById("sort-select");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", handleSortChange);
+  } else {
+    console.error("Le sélecteur de tri n'a pas été trouvé.");
+  }
+});
