@@ -1,4 +1,5 @@
 // Récupération des éléments de la lightbox
+const overlay = document.querySelector(".overlay");
 const lightboxContainer = document.querySelector(".lightbox_container");
 const lightboxImage = document.querySelector(".lightbox_img");
 const lightboxVideo = document.querySelector(".lightbox_video");
@@ -17,6 +18,7 @@ function openLightbox(src, index, title) {
   lightboxTitle.textContent = title; // Met à jour le titre du média
   lightboxContainer.classList.add("open"); // Affiche la lightbox
   lightboxContainer.setAttribute("aria-hidden", "false"); // Déclare que la Lightbox est visible
+  overlay.style.display = "block"; // Affiche l'overlay
   document.addEventListener("keydown", handleKeyDown);
 }
 
@@ -27,6 +29,7 @@ function closeLightbox() {
   lightboxImage.src = ""; // Réinitialise la source de l'image
   lightboxTitle.textContent = ""; // Réinitialise le titre
   lightboxContainer.setAttribute("aria-hidden", "true"); // Déclare que la Lightbox est cachée
+  overlay.style.display = "none"; // Cacher l'overlay
   document.removeEventListener("keydown", handleKeyDown);
 }
 
