@@ -126,7 +126,7 @@ video {
 }
 
 .heart-icon {
-  color: #901c1c !important;
+  cursor: pointer;
 }
 
 .modal {

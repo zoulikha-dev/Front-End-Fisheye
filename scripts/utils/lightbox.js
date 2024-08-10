@@ -13,6 +13,7 @@ let mediaArray = []; // Tableau contenant tous les médias (images et vidéos)
 
 // Fonction pour ouvrir la lightbox
 function openLightbox(src, index, title) {
+  console.log("SRC:", src); // Debug: Afficher le chemin du média
   currentMediaIndex = index; // Met à jour l'index du média actuel
   displayMedia(); // Affiche le média actuel
   lightboxTitle.textContent = title; // Met à jour le titre du média
@@ -36,6 +37,7 @@ function closeLightbox() {
 // Fonction pour afficher le média actuel
 function displayMedia() {
   const media = mediaArray[currentMediaIndex]; // Récupère le média actuel
+  console.log("Current Media:", media); // Debug: Afficher le média actuel
   if (media) {
     if (media.path.endsWith(".mp4")) {
       lightboxVideo.src = media.path; // Met à jour la source de la vidéo
@@ -92,17 +94,17 @@ function initLightbox(mediaList) {
     });
 }
 
-// Ajouter des événements pour les boutons "Suivant" et "Précédent"
+// Ajoute des événements pour les boutons "Suivant" et "Précédent"
 btnNext.addEventListener("click", nextMedia);
 btnPrevious.addEventListener("click", previousMedia);
 
 // Événements pour fermer la lightbox
 btnClose.addEventListener("click", closeLightbox);
 
-// Assurer que la Lightbox se ferme lorsqu'on clique en dehors de son contenu
-lightboxContainer.addEventListener("click", (e) => {
-  // Ferme la Lightbox seulement si le clic est sur le conteneur, mais pas sur les éléments à l'intérieur
-  if (e.target === lightboxContainer) {
+// Assure que la Lightbox se ferme lorsqu'on clique en dehors de son contenu
+overlay.addEventListener("click", (e) => {
+  // Ferme la Lightbox seulement si le clic est sur l'overlay, mais pas sur les éléments à l'intérieur
+  if (e.target === overlay) {
     closeLightbox();
   }
 });

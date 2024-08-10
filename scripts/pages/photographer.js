@@ -126,7 +126,10 @@ function photographerMediaDetails(mediaArray, photographer) {
     // Créer un élément pour afficher l'icône de cœur
     const heartIcon = document.createElement("span");
     heartIcon.classList.add("heart-icon");
-    heartIcon.textContent = "❤️"; // Utilisation de l'icône de cœur Unicode
+    heartIcon.classList.add("heart-icon", "fas", "fa-heart");
+    // Définir la couleur de l'icône et l'arrière-plan directement en JavaScript
+    heartIcon.style.color = "#901C1C";
+    heartIcon.style.fontSize = "24px"; // Taille de l'icône
     likesContainer.appendChild(heartIcon);
 
     // Ajouter les éléments à mediaInfoDiv
@@ -150,52 +153,10 @@ function photographerMediaDetails(mediaArray, photographer) {
 
   // Ajouter des écouteurs d'événements pour tous les boutons de like après avoir ajouté les médias
   document.querySelectorAll(".heart-icon").forEach((heartIcon) => {
-    heartIcon.addEventListener("click", incrementLikes);
-  });
-}
-
-// Fonction pour ouvrir la lightbox
-function openLightbox(src, index, title) {
-  const lightbox = document.querySelector(".lightbox_container");
-  const lightboxMedia = lightbox.querySelector(".lightbox_media");
-  const lightboxTitle = lightbox.querySelector("#lightbox-title");
-  const lightboxDescription = lightbox.querySelector("#lightbox-description");
-
-  const mediaElement = lightbox.querySelector(".lightbox_img");
-  mediaElement.src = src;
-  mediaElement.alt = title;
-
-  lightboxTitle.textContent = title;
-  lightboxDescription.textContent =
-    "Utilisez les boutons pour naviguer entre les médias.";
-  lightbox.style.display = "block";
-
-  // Fermer la lightbox au clic sur le bouton de fermeture
-  const closeButton = lightbox.querySelector(".btn_close");
-  closeButton.addEventListener("click", () => {
-    lightbox.style.display = "none";
-  });
-
-  // Naviguer entre les médias
-  const prevButton = lightbox.querySelector(".btn_previous");
-  const nextButton = lightbox.querySelector(".btn_next");
-
-  prevButton.addEventListener("click", () => {
-    const prevIndex = (index - 1 + mediaPaths.length) % mediaPaths.length;
-    openLightbox(
-      mediaPaths[prevIndex].path,
-      prevIndex,
-      mediaPaths[prevIndex].title
-    );
-  });
-
-  nextButton.addEventListener("click", () => {
-    const nextIndex = (index + 1) % mediaPaths.length;
-    openLightbox(
-      mediaPaths[nextIndex].path,
-      nextIndex,
-      mediaPaths[nextIndex].title
-    );
+    heartIcon.addEventListener("click", (event) => {
+      event.stopPropagation(); // Empêche la propagation de l'événement vers les éléments parents
+      incrementLikes(event); // Fonction pour incrémenter les likes
+    });
   });
 }
 
