@@ -227,18 +227,11 @@ function sortMedia(criteria) {
   photographerMediaDetails(sortedMedia, selectedPhotographer);
 }
 
-// Fonction pour gérer le changement de critère de tri
+// Fonction pour gérer l'événement de tri
 function handleSortChange(event) {
-  const selectedCriteria = event.target.value;
+  const selectedCriteria = event.detail;
   sortMedia(selectedCriteria);
 }
 
-// Ajouter l'écouteur d'événement à l'élément de tri
-document.addEventListener("DOMContentLoaded", () => {
-  const sortSelect = document.getElementById("sort-select");
-  if (sortSelect) {
-    sortSelect.addEventListener("change", handleSortChange);
-  } else {
-    console.error("Le sélecteur de tri n'a pas été trouvé.");
-  }
-});
+// Ajouter un écouteur d'événement pour l'événement personnalisé
+document.addEventListener("sortChanged", handleSortChange);
