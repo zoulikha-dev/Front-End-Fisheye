@@ -98,9 +98,12 @@ function photographerMediaDetails(mediaArray, photographer) {
       mediaElement.controls = true;
     }
     mediaElement.classList.add("media-item");
+    mediaElement.setAttribute("tabindex", "0"); // Rendre focusable avec Tab
+
     mediaElement.addEventListener("click", () =>
       openLightbox(mediaElement.src, index, media.title)
     );
+
     mediaContainerDiv.appendChild(mediaElement);
 
     // Créer un élément pour afficher le bloc de titre, icône de cœur et nombre de likes
@@ -153,11 +156,54 @@ function photographerMediaDetails(mediaArray, photographer) {
 
   // Ajouter des écouteurs d'événements pour tous les boutons de like après avoir ajouté les médias
   document.querySelectorAll(".heart-icon").forEach((heartIcon) => {
+    heartIcon.setAttribute("tabindex", "0"); // Rendre focusable avec Tab
+
     heartIcon.addEventListener("click", (event) => {
       event.stopPropagation(); // Empêche la propagation de l'événement vers les éléments parents
       incrementLikes(event); // Fonction pour incrémenter les likes
     });
   });
+}
+
+// Gestion de la navigation clavier pour la page photographe
+document.addEventListener("keydown", (event) => {
+  const focusedElement = document.activeElement;
+
+  // Navigation entre les médias avec les flèches droite et gauche
+  if (event.key === "ArrowRight") {
+    navigateMedia(focusedElement, "next");
+  } else if (event.key === "ArrowLeft") {
+    navigateMedia(focusedElement, "prev");
+  }
+
+  // Ouverture de la lightbox avec la touche Entrée
+  if (
+    event.key === "Enter" &&
+    focusedElement.classList.contains("media-item")
+  ) {
+    const mediaIndex = Array.from(photographerMedia).indexOf(focusedElement);
+    openLightbox(focusedElement.src, mediaIndex, focusedElement.alt);
+  }
+
+  // Fermeture de la lightbox avec la touche Échap
+  if (event.key === "Escape") {
+    closeLightbox();
+  }
+});
+
+// Fonction pour naviguer entre les médias avec les flèches
+function navigateMedia(currentElement, direction) {
+  let newIndex;
+  const mediaArray = Array.from(document.querySelectorAll(".media-item"));
+  const currentIndex = mediaArray.indexOf(currentElement);
+
+  if (direction === "next") {
+    newIndex = (currentIndex + 1) % mediaArray.length; // Aller au suivant, ou revenir au premier
+  } else if (direction === "prev") {
+    newIndex = (currentIndex - 1 + mediaArray.length) % mediaArray.length; // Aller au précédent, ou revenir au dernier
+  }
+
+  mediaArray[newIndex].focus(); // Donner le focus au nouvel élément
 }
 
 // Fonction pour trier les médias selon le critère sélectionné

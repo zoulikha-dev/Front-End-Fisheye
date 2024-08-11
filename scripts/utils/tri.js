@@ -26,6 +26,7 @@ function createSortSelect() {
   const select = document.createElement("div");
   select.setAttribute("id", "sort-select");
   select.setAttribute("class", "custom-select");
+  select.setAttribute("tabindex", "0"); // Rendre l'élément focusable
 
   // Ajouter l'élément select au conteneur
   selectWrapper.appendChild(select);
@@ -60,6 +61,7 @@ function createSortSelect() {
     optionElement.classList.add("custom-select-option");
     optionElement.textContent = option.text;
     optionElement.setAttribute("data-value", option.value);
+    optionElement.setAttribute("tabindex", "0"); // Rendre l'élément focusable
     optionsContainer.appendChild(optionElement);
   });
 
@@ -89,21 +91,58 @@ function createSortSelect() {
   // Gérer la sélection d'une option
   optionsContainer.addEventListener("click", function (e) {
     if (e.target.classList.contains("custom-select-option")) {
-      const selectedValue = e.target.getAttribute("data-value");
-      selectText.textContent = e.target.textContent; // Mettre à jour le texte selon l'option sélectionnée
-      optionsContainer.style.display = "none";
-      arrow.classList.remove("up");
-      arrow.classList.add("down");
-
-      isOpen = false; // Fermer le menu
-
-      // Émettre un événement personnalisé pour signaler la sélection
-      const sortEvent = new CustomEvent("sortChanged", {
-        detail: selectedValue,
-      });
-      document.dispatchEvent(sortEvent);
+      selectOption(e.target);
     }
   });
+
+  // Gérer la navigation au clavier dans le menu de tri
+  select.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+      if (!isOpen) {
+        isOpen = true;
+        optionsContainer.style.display = "block";
+        arrow.classList.add("up");
+        arrow.classList.remove("down");
+      } else {
+        isOpen = false;
+        optionsContainer.style.display = "none";
+        arrow.classList.add("down");
+        arrow.classList.remove("up");
+      }
+    }
+  });
+
+  optionsContainer.addEventListener("keydown", function (e) {
+    const focusedElement = document.activeElement;
+    if (
+      e.key === "Enter" &&
+      focusedElement.classList.contains("custom-select-option")
+    ) {
+      selectOption(focusedElement);
+    }
+    if (e.key === "Escape") {
+      isOpen = false;
+      optionsContainer.style.display = "none";
+      arrow.classList.add("down");
+      arrow.classList.remove("up");
+    }
+  });
+
+  function selectOption(optionElement) {
+    const selectedValue = optionElement.getAttribute("data-value");
+    selectText.textContent = optionElement.textContent; // Mettre à jour le texte selon l'option sélectionnée
+    optionsContainer.style.display = "none";
+    arrow.classList.remove("up");
+    arrow.classList.add("down");
+
+    isOpen = false; // Fermer le menu
+
+    // Émettre un événement personnalisé pour signaler la sélection
+    const sortEvent = new CustomEvent("sortChanged", {
+      detail: selectedValue,
+    });
+    document.dispatchEvent(sortEvent);
+  }
 
   // Fermer le menu lorsque l'utilisateur clique en dehors
   document.addEventListener("click", (event) => {
