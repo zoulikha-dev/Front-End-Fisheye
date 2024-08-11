@@ -1,6 +1,8 @@
+// contactForm.js
+
 function displayModal() {
   const modal = document.getElementById("contact_modal");
-  const modalTitle = modal.querySelector("h2"); // Sélectionne l'élément h2 à l'intérieur de la modal
+  const modalTitle = modal.querySelector("h2");
 
   // Assurez-vous que photographerId est défini
   if (photographerId !== null) {
@@ -15,6 +17,9 @@ function displayModal() {
         if (photographer) {
           modalTitle.textContent = "Contactez " + photographer.name; // Ajoute le nom du photographe au titre de la modal
           modal.style.display = "block"; // Affiche la modal
+          modal.setAttribute("aria-hidden", "false"); // Met à jour l'attribut ARIA
+          modal.querySelector("input").focus(); // Focus sur le premier champ de formulaire
+          document.addEventListener("keydown", handleKeydown); // Ajoute un gestionnaire d'événements clavier
         } else {
           console.error("Photographe non trouvé avec l'ID :", photographerId);
         }
@@ -29,5 +34,13 @@ function displayModal() {
 
 function closeModal() {
   const modal = document.getElementById("contact_modal");
-  modal.style.display = "none";
+  modal.style.display = "none"; // Cache la modal
+  modal.setAttribute("aria-hidden", "true"); // Met à jour l'attribut ARIA
+  document.removeEventListener("keydown", handleKeydown); // Supprime le gestionnaire d'événements clavier
+}
+
+function handleKeydown(event) {
+  if (event.key === "Escape") {
+    closeModal(); // Ferme la modal si la touche Escape est pressée
+  }
 }
